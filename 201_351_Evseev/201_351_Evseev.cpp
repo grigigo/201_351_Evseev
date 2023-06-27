@@ -6,17 +6,10 @@ using json = nlohmann::json;
 using namespace std;
 
 int main() {
-    json accounts = {
-        {"id", 1},
-        {"login", "user"},
-        {"password", "qwerty"}
-    };
-
     ifstream fin("accounts.json");
     //if (fin.is_open()) cout << "oopen!\n";
     json data = json::parse(fin);
 
-    
     string enter_pass = "qwerty";
     bool is_entered = false;
     string pass;
@@ -38,9 +31,15 @@ int main() {
         bool is_found = false;
         cout << "\nEnter account number: ";
         cin >> num;
-        cout << "\nLogin - " << accounts["login"] << endl;
-        cout << "Password - " << accounts["password"] << endl;
-
+        if (num == -1) break;
+        for (const auto& item : data) {
+            if (item["id"] == num) {
+                cout << "\nLogin - " << item["login"] << endl;
+                cout << "Password - " << item["password"] << endl;
+                is_found = true;
+            }
+        }
+        if (is_found == false) cout << "\n\nDidn't found account with this number!!!\n\n";
         system("pause");
         system("cls");
     }
